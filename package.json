@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "compile": "cd hardhat && npx hardhat compile",
-    "start-front":"cd react && npm run dev"
+    "start-front": "cd react && npm run dev"
   },
   "keywords": [],
   "author": "",
