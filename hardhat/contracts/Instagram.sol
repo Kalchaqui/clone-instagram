@@ -1,25 +1,54 @@
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
+/**
+ * @title Clone instagram Web3
+ * @author Kalcha
+ * @notice You can use this contract to clone instagram web3 social media
+ * @dev A este contrato le faltan más funciones pero cumple con lo minimo requerido
+ */
 pragma solidity ^0.8.24;
 
 contract Instagram {
 
+    ///@notice counter for posts
     uint256 public s_postCounterId;
     
+    /**
+     * @dev un struct que define o representa un post en la plataforma
+     * @param description descripcio de la publicacion
+     * @param uri url de la publicacion
+     */
     struct Post {
         string description;
         string uri;
     }
 
+    ///@notice Mapping para almacenar los post y su identificador
     mapping(uint256 => Post) private s_posts;
     mapping(address => mapping(uint256 => Post)) private s_postsUser;
     mapping(address => uint256) private s_postsCounterByUser;
     mapping(uint256 => address[]) private s_likesOfPost;
 
+    /**
+     * @dev evento para registrar un nuevo post
+     * @param postId el id del post recien creado
+     * @param description  la descripcio del post
+     * @param owner la direccion de la creacion del post
+     */
     event PostAdded(uint256 indexed postId, string description, address owner);
     event Like(uint256 indexed postId, address user);
     event Unlike(uint256 indexed postId, address user);
-    error PostDoesNotExist(uint256);
 
+    /**
+     * @dev error para notificar que el post no existe
+     * @param postId el Id del post que no existe
+     */
+    error PostDoesNotExist(uint256 postId);
+
+    /**
+     * @notice Recupera un post especifico de un usuario en la plataforma de Instagram
+    * @param _post toda la informacion del post
+     
+     */
     function addPost(Post memory _post)external {
         require(bytes(_post.uri).length > 0,"Uri cannot be empty"); 
         s_postCounterId++;
