@@ -33,7 +33,7 @@ contract InstagramTest is Test {
 
       }
 
-    function testLikePost() external {
+    function test_LikePost() external {
         uint256 postId = 1;
         _addPost();
         vm.expectEmit(true, false, false, true);
@@ -41,6 +41,24 @@ contract InstagramTest is Test {
         instagram.like(postId);
         uint256 likes = instagram.getLikesOfPost(postId);
         assertEq(likes, 1);
+}
+    function test_UnlikePost() external {
+        uint256 postId = 1;
+        _addPost();
+        instagram.like(postId);
+        vm.expectEmit(true, false, false, true);
+        emit Unlike(postId, address(this));
+        instagram.unlike(postId);
+        uint256 likes = instagram.getLikesOfPost(postId);
+        assertEq(likes, 0);
+}
+
+    function test_GetPost() external {  
+        uint256 postId = 1;
+        vm.expectRevert();
+        instagram.getPost(postId);
+        _addPost();
+        Instagram.Post memory post = instagram.getPost(postId);
 }
 
     function _addPost() internal {
