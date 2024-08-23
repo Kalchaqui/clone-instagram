@@ -35,6 +35,17 @@ contract InstagramTest is Test {
 
     function testLikePost() external {
         uint256 postId = 1;
+        _addPost();
+        vm.expectEmit(true, false, false, true);
+        emit Like(postId, address(this));
+        instagram.like(postId);
+        uint256 likes = instagram.getLikesOfPost(postId);
+        assertEq(likes, 1);
+}
+
+    function _addPost() internal {
+        Instagram.Post memory post = Instagram.Post({description:"description", uri: "ipfs://"});
+        instagram.addPost(post);
 }
 
 }
