@@ -98,8 +98,13 @@ function getLikesOfPost(uint256 _postId)public view postsExists(_postId) returns
     return s_posts[_postId].uri;
 
  }
-
+    ///@notice Optiene tidos los posts en un rango de identificadores
+    ///@param _start el identificador inicial
+    ///@param _end el identificador final
+    ///@return un array de posts en el rango especificado
  function getAllPosts(uint256 _start, uint256 _end)public view returns(Post[]memory){
+   require(_start > 0 && _end > _start, "Start must be greater than 0");
+   require(s_postCounterId >= _end, "End is greater than total post");
    uint256 length = _end - _start + 1;
    Post[] memory posts = new Post[](length);
    for  (uint256 index = 0; index < length; index++){
